@@ -25,4 +25,4 @@ COPY . .
 ENV NODE_ENV=production
 
 # Start bot
-CMD ["node", "index.js"]
+CMD ["node", "src/index.js"]
