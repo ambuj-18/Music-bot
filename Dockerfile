@@ -1,7 +1,15 @@
-# Use official Node.js LTS image
-FROM node:18-alpine
+# Use Debian based Node image (NOT alpine)
+FROM node:18-bullseye
 
-# Create app directory
+# Install Python & build tools (IMPORTANT)
+RUN apt-get update && apt-get install -y \
+    python3 \
+    make \
+    g++ \
+    ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
+
+# App directory
 WORKDIR /app
 
 # Copy package files
@@ -10,11 +18,11 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install --production
 
-# Copy all source code
+# Copy source code
 COPY . .
 
-# Set environment to production
+# Production mode
 ENV NODE_ENV=production
 
-# Start the bot
+# Start bot
 CMD ["node", "index.js"]
